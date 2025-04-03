@@ -5,7 +5,7 @@ from utils import paper_controller, llm_controller
 def render_search_section():
     st.radio(
         "検索モード選択:",
-        ("キーワード検索", "AI検索"),
+        ("キーワード検索", "AI検索 1", "AI検索 2"),
         horizontal=True,
         key="search_mode"
     )
@@ -15,11 +15,11 @@ def render_search_section():
         unsafe_allow_html=True
     )
     st.caption(
-        '※ AI検索 : 入力された文章から関連度の高い論文を自動で解析し検索します。<span style="color:coral; font-weight:bold;">（例：「～～に関する論文が知りたい」）</span>',
+        '※ AI検索 1 : 入力された文章から関連度の高い論文を自動で解析し検索します。<span style="color:coral; font-weight:bold;">（例：「～～に関する論文が知りたい」）</span>',
         unsafe_allow_html=True
     )
     st.caption(
-        '※ AI検索 : 論文で論文を検索する場合は例のようにしてください。<span style="color:coral; font-weight:bold;">（例：「(論文タイトル),(論文アブストラクト)」）</span>',
+        '※ AI検索 2 : 論文で論文を検索する場合は例のようにしてください。<span style="color:coral; font-weight:bold;">（例：「(論文タイトル),(論文アブストラクト)」）</span>',
         unsafe_allow_html=True
     )
 
@@ -36,8 +36,8 @@ def render_search_section():
                     limit=st.session_state["num_search_papers"]
                 )
         
-        if st.session_state["search_mode"] == "AI検索" and st.button("AI検索"):
-            st.session_state["user_input_analysis"] = llm_controller.user_paper_controllar(
+        if st.session_state["search_mode"] == "AI検索 2" and st.button("AI検索 2"):
+            st.session_state["user_input_analysis"] = llm_controller.user_paper_ollama_controllar(
                 st.session_state["first_user_input"]
             )
             # 結果確認用にフィールド情報を表示

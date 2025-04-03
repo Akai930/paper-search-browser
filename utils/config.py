@@ -413,3 +413,89 @@ experiment_tools = [
         }
     }
 ]
+
+structured_json_schema = {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "StructuredPaperMetadata",
+    "type": "object",
+    "properties": {
+        "title": { "type": "string" },
+        "fields": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": { "type": "string" },
+                    "score": { "type": "number", "minimum": 0, "maximum": 1 }
+                },
+                "required": ["name", "score"]
+            }
+        },
+        "labels": {
+            "type": "object",
+            "properties": {
+                "target": {
+                    "type": "object",
+                    "properties": {
+                        "ja": { "type": "string" },
+                        "en": { "type": "string" }
+                    },
+                    "required": ["ja", "en"]
+                },
+                "approaches": {
+                    "type": "object",
+                    "properties": {
+                        "methods": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "ja": { "type": "string" },
+                                    "en": { "type": "string" }
+                                },
+                                "required": ["ja", "en"]
+                            }
+                        },
+                        "factors": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "ja": { "type": "string" },
+                                    "en": { "type": "string" }
+                                },
+                                "required": ["ja", "en"]
+                            }
+                        },
+                        "metrics": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "ja": { "type": "string" },
+                                    "en": { "type": "string" }
+                                },
+                                "required": ["ja", "en"]
+                            }
+                        }
+                    },
+                    "required": ["methods", "factors", "metrics"]
+                },
+                "search_keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "ja": { "type": "string" },
+                            "en": { "type": "string" }
+                        },
+                        "required": ["ja", "en"]
+                    }
+                }
+            },
+            "required": ["target", "approaches", "search_keywords"]
+        }
+    },
+    "required": ["title", "fields", "labels"],
+    "additionalProperties": False
+}

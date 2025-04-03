@@ -1,7 +1,7 @@
 # テキストチャット
 import streamlit as st
 from utils import llm_controller, config
-from api import lm_studio_api
+from api import lm_studio_api, ollama_api
 
 def render_history(chat_history, css_text_user, css_text_assistant):
     """
@@ -25,9 +25,10 @@ def update_chat_history_with_response(api_messages, stream_placeholder):
     """
     LLM APIからのストリーミングレスポンスを処理し、チャット履歴を更新する。
     """
+    MODEL = "gemma3:12b"
     assistant_response = ""
     #stream_placeholder = st.empty()  # ストリーミング更新用プレースホルダー
-    for updated_text in lm_studio_api.stream_chat_response(api_messages):
+    for updated_text in ollama_api.stream_chat_response(model_name=MODEL,messages=api_messages):
         assistant_response = updated_text
         stream_placeholder.markdown(f"<strong>Assistant:</strong> {updated_text}</div>", unsafe_allow_html=True)
     stream_placeholder.empty()
@@ -39,7 +40,7 @@ def update_chat_history_with_response(api_messages, stream_placeholder):
 
 def render_stream(stream_placeholder, selected_paper):
     selected_paper_content = f"{selected_paper['title']}, {selected_paper['abstract']}"
-    if st.session_state["search_mode"] == "AI検索":
+    if st.session_state["search_mode"] == "AI検索 2":
         initial_prompt = (
             f"{config.INST_PROMPT_AI}\nユーザー論文:{st.session_state['first_user_input']}"
             f"\"\"\"選択された論文\"\"\"{selected_paper_content}\"\"\""

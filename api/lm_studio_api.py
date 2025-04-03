@@ -36,6 +36,7 @@ def get_structured_response(client: OpenAI, model: str, messages: list) -> dict:
     try:
         structured_data = json.loads(result)
     except json.JSONDecodeError as e:
+        print(result)
         raise ValueError("レスポンスのJSON形式に誤りがあります") from e
 
     return structured_data
@@ -53,7 +54,7 @@ def stream_chat_response(messages, temperature=0.2):
         model=MODEL,
         messages=messages,
         stream=True,
-        temperature=temperature
+        #temperature=temperature
     )
     response_text = ""
     for chunk in stream:
@@ -66,6 +67,9 @@ def stream_chat_response(messages, temperature=0.2):
 # 使用例
 if __name__ == "__main__":
     client = OpenAI(base_url="http://192.168.11.26:1234/v1", api_key="lm-studio")
+    #client = OpenAI(base_url="http://localhost:11435/v1", api_key="gemma3:12b")
+    
+    #MODEL = "gemma3:12b"
     MODEL = "my-model"
     #MODEL = "gemma-3-12b-it@q3_k_l"
     user_paper = '''"""感度解析を介した時系列遺伝子発現データ補完法の開発と創薬応用,承認薬を含む生物活性化合物は治療標的となるタンパク質に作用することで疾患治療のための作用を示す。しか し、それ以外のタンパク質に作用することで副作用のような期待していない作用を示す場合がある。したがって、 化合物の作用メカニズムを明らかにすることは、創薬における重要課題になっている。近年、オミクス情報に基づく、化合物の作用メカニズム予測が注目されている。例えば、化合物をヒト由来細胞に 添加して、一定時間後に遺伝子発現を観測した、化合物応答遺伝子発現データは、化合物の作用メカニズムの予測 に用いられている。しかしながら、このような遺伝子発現データは、コストや時間の制約により、特定の時間点で のみ観測され時系列で観測されていない。これによって、特定の時間点での解析を行うことはできるが、経時的に 解析を行うことができない。したがって、現状のデータから、化合物の経時的な影響を予測することは限界がある。そこで本研究では、細胞内システムに対して構築された数理モデルの感度解析を行い、得られた結果に基づき、 観測されている化合物応答遺伝子発現データから、時系列の遺伝子発現データを補完する新たな手法を開発することを目指した。"""'''

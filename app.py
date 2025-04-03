@@ -17,24 +17,24 @@ def main():
     search_bar.render_search_info_selection_section()
 
     # --- 2段目：結果のサマリー表示 ---
-    
-    with st.container(height=500):
-        col1, col2, col3 = st.columns([1, 2, 2])
-        with col1:
-            st.write("### 指定論文の分野配分")
-            if st.session_state["user_input_analysis"]:
-                result_summary.render__paper_info_analysis(st.session_state["user_input_analysis"].fields)
-        
-        with col2:
-            st.write("### 解析結果")
-            st.caption('ユーザー論文 or 指定した論文の解析結果を出力します。', unsafe_allow_html=True)
-            if st.session_state["user_input_analysis"]:
-                result_summary.render_paper_analysis_result(st.session_state["user_input_analysis"])
-        
-        with col3:
-            st.write("### 論文情報")
-            #if "selected_paper" in st.session_state:
-            result_summary.render_info_paper(st.session_state["selected_paper"])
+    with st.expander("詳細情報"):
+        with st.container(height=500):
+            col1, col2, col3 = st.columns([1, 2, 2])
+            with col1:
+                st.write("### 指定論文の分野配分")
+                if st.session_state["user_input_analysis"]:
+                    result_summary.render__paper_info_analysis(st.session_state["user_input_analysis"].fields)
+            
+            with col2:
+                st.write("### 解析結果")
+                st.caption('ユーザー論文 or 指定した論文の解析結果を出力します。', unsafe_allow_html=True)
+                if st.session_state["user_input_analysis"]:
+                    result_summary.render_paper_analysis_result(st.session_state["user_input_analysis"])
+            
+            with col3:
+                st.write("### 論文情報")
+                #if "selected_paper" in st.session_state:
+                result_summary.render_info_paper(st.session_state["selected_paper"])
     
     # --- 3段目：論文ネットワーク＆テキストチャット ---
     with st.container():
