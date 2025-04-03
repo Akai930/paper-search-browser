@@ -1,2 +1,6 @@
 *.ipynb
 api/llm_api.py
+pulling_files.py
+.continue
+project_export.md
+*.json
